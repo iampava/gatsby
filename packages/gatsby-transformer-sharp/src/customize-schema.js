@@ -17,7 +17,7 @@ const {
   traceSVG,
   generateImageData,
 } = require(`gatsby-plugin-sharp`)
-
+// TODO V5 use gatsby/sharp
 const sharp = require(`./safe-sharp`)
 const fs = require(`fs-extra`)
 const imageSize = require(`probe-image-size`)

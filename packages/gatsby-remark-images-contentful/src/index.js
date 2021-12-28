@@ -1,4 +1,5 @@
 const { selectAll } = require(`unist-util-select`)
+// TODO V5 use gatsby/sharp
 const sharp = require(`./safe-sharp`)
 const axios = require(`axios`)
 const _ = require(`lodash`)

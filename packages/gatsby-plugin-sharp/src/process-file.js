@@ -1,3 +1,4 @@
+// TODO V5 use gatsby/sharp
 const sharp = require(`./safe-sharp`)
 const fs = require(`fs-extra`)
 const path = require(`path`)

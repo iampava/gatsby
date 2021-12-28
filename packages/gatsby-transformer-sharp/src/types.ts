@@ -11,6 +11,7 @@ import {
 import { Potrace } from "potrace"
 import type Sharp from "sharp"
 
+// TODO V5 use gatsby/sharp
 const sharp: typeof Sharp = require(`./safe-sharp`)
 const DEFAULT_PNG_COMPRESSION_SPEED = 4
 

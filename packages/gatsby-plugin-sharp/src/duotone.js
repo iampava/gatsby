@@ -1,3 +1,4 @@
+// TODO V5 use gatsby/sharp
 const sharp = require(`./safe-sharp`)
 const { reportError } = require(`./report-error`)
 

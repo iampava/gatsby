@@ -3,6 +3,7 @@ const fs = require(`fs-extra`)
 const _ = require(`lodash`)
 const tmpDir = require(`os`).tmpdir()
 const path = require(`path`)
+// TODO V5 use gatsby/sharp
 const sharp = require(`./safe-sharp`)
 const filenamify = require(`filenamify`)
 const duotone = require(`./duotone`)

@@ -1,3 +1,4 @@
+// TODO V5 use gatsby/sharp
 import sharp from "./safe-sharp"
 import fs from "fs-extra"
 

@@ -5,6 +5,7 @@ import { Reporter } from "gatsby/reporter"
 import fs from "fs-extra"
 import { rgbToHex, calculateImageSizes, getSrcSet, getSizes } from "./utils"
 import { traceSVG, getImageSizeAsync, base64, batchQueueImageResizing } from "."
+// TODO V5 use gatsby/sharp
 import sharp from "./safe-sharp"
 import {
   createTransformObject,
