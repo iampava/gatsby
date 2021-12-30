@@ -35,6 +35,7 @@ export interface IBuildArgs extends IProgram {
   profile: boolean
   graphqlTracing: boolean
   openTracingConfigFile: string
+  keepOldPageData: boolean
   // TODO remove in v4
   keepPageRenderer: boolean
 }
@@ -488,7 +489,7 @@ export async function buildHTMLPagesAndDeleteStaleArtifacts({
     }
   }
 
-  if (toDelete.length > 0) {
+  if (toDelete.length > 0 && !program.keepOldPageData) {
     const publicDir = path.join(program.directory, `public`)
     const deletePageDataActivityTimer = reporter.activityTimer(
       `Delete previous page data`
