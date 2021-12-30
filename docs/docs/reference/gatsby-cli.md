@@ -157,6 +157,7 @@ At the root of a Gatsby site, compile your application and make it ready for dep
 |        `--no-uglify`         | Build site without uglifying JS bundles (for debugging)                                                                                      |
 |         `--profile`          | Build site with react profiling. See [Profiling Site Performance with React Profiler](/docs/profiling-site-performance-with-react-profiler/) |
 | `--open-tracing-config-file` | Tracer configuration file (OpenTracing compatible). See [Performance Tracing](/docs/performance-tracing/)                                    |
+|   `--deletion-config-file`   | JSON file containing a `string[]` with HTML pages to delete in this build. This allows user-controlled incremental builds.                   |
 |     `--graphql-tracing`      | Trace (see above) every graphql resolver, may have performance implications.                                                                 |
 | `--no-color`, `--no-colors`  | Disables colored terminal output                                                                                                             |
 
