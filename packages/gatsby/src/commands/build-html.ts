@@ -1,6 +1,7 @@
 import Bluebird from "bluebird"
 import fs from "fs-extra"
 import reporter from "gatsby-cli/lib/reporter"
+import { slash } from "gatsby-core-utils"
 import { createErrorFromString } from "gatsby-cli/lib/reporter/errors"
 import { chunk, truncate } from "lodash"
 import { build, watch } from "../utils/webpack/bundle"
@@ -34,6 +35,7 @@ export interface IBuildArgs extends IProgram {
   profile: boolean
   graphqlTracing: boolean
   openTracingConfigFile: string
+  deletionConfigFile: string
   // TODO remove in v4
   keepPageRenderer: boolean
 }
@@ -494,8 +496,26 @@ export async function buildHTMLPagesAndDeleteStaleArtifacts({
   const pageRenderer = `${program.directory}/${ROUTES_DIRECTORY}render-page.js`
   buildUtils.markHtmlDirtyIfResultOfUsedStaticQueryChanged()
 
-  const { toRegenerate, toDelete, toCleanupFromTrackedState } =
-    buildUtils.calcDirtyHtmlFiles(store.getState())
+  const {
+    toRegenerate,
+    toDelete: defaultToDelete,
+    toCleanupFromTrackedState,
+  } = buildUtils.calcDirtyHtmlFiles(store.getState())
+
+  let toDelete = defaultToDelete
+  if (program.deletionConfigFile) {
+    const resolvedPath = slash(path.resolve(program.deletionConfigFile))
+    const toDeleteConfig: Array<string> = require(resolvedPath)
+
+    // Only delete files that would normally be marked for deletion.
+    // This way we prevent confusion. For example, what happens if
+    // the user selects a page that will be rendered based on the data model?
+    toDelete = toDeleteConfig.filter(fileName => toDelete.includes(fileName))
+    reporter.info(
+      "[CUSTOM] CLI option `deletionConfigFile` is set. Files to be deleted: " +
+        (toDelete.length === 0 ? `none` : toDelete.join(`,`))
+    )
+  }
 
   store.dispatch({
     type: `HTML_TRACKED_PAGES_CLEANUP`,

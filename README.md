@@ -1,3 +1,67 @@
+# incremental-gatsby
+
+## How to install and use in other projects
+
+1. First make sure you're on the correct branch
+
+```
+git checkout cli-deletion-config-file
+```
+
+2. Then run these commands to build the project.
+
+```
+yarn
+yarn bootstrap
+```
+
+3. Navigate to the Gatsby Project where you want to use this
+
+4. Inside `package.json`, change the `gatsby` dependency
+
+```
+"gatsby": "file:path/to/gatsby-fork/packages/gatsby
+```
+
+For example, on my local machine
+
+```
+"gatsby": "file:../../../gatsby/packages/gatsby"
+```
+
+4. Add a new `resolutions` field inside the `package.json` of the project where you want to use this, where we'll define the path towards `gatsby-cli`:
+
+```
+"resolutions": {
+  "gatsby-cli": "file:path/to/gatsby-fork/packages/gatsby-cli"
+}
+```
+
+5. Re-install dependencies in the project
+
+```
+yarn install --force
+```
+
+6. Create a `deletion-config.json` file with an Array of pages that we shall delete on the next build
+
+```json
+// deletion-config.json
+["/pokemon/Pikachu/day/Tuesday"]
+```
+
+7. Run the `build` action with the custom `deletion-config` flag:
+
+```
+gatsby build --deletion-config-file=deletion-config.json
+```
+
+---
+
+---
+
+---
+
 <p align="center">
   <a href="https://www.gatsbyjs.com">
     <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />

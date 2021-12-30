@@ -204,6 +204,10 @@ function buildLocalCommands(cli: yargs.Argv, isLocalSite: boolean): void {
         .option(`inspect-brk`, {
           type: `number`,
           describe: `Opens a port for debugging. Will block until debugger is attached. See https://www.gatsbyjs.com/docs/debugging-the-build-process/`,
+        })
+        .option(`deletion-config-file`, {
+          type: `string`,
+          describe: `JSON file containing a 'string[]' with HTML pages to delete in this build. This allows user-controlled incremental builds.`,
         }),
     handler: handlerP(
       getCommandHandler(
@@ -256,6 +260,10 @@ function buildLocalCommands(cli: yargs.Argv, isLocalSite: boolean): void {
         .option(`open-tracing-config-file`, {
           type: `string`,
           describe: `Tracer configuration file (OpenTracing compatible). See https://gatsby.dev/tracing`,
+        })
+        .option(`deletion-config-file`, {
+          type: `string`,
+          describe: `JSON file containing a 'string[]' with HTML pages to delete in this build. This allows user-controlled incremental builds.`,
         })
         // log-pages and write-to-file were added specifically to experimental GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES feature
         // in gatsby@2. They are useful, but not very applicable (specifically `--write-to-file`) as generic approach, as it only
