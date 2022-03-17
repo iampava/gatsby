@@ -1,3 +1,56 @@
+# topspeed-gatsby
+
+## How to install and use in other projects
+
+First make sure you're on the correct branch
+
+```
+git checkout cli-deletion-config-file
+```
+
+Then run these commands:
+
+```
+yarn
+yarn bootstrap
+
+cd packages/gatsby
+yarn link
+
+cd ../gatsby-cli
+yarn link
+```
+
+The above commands will generate a prepare those package to be "linked" from other projects, where we want to use this source code.
+
+Afterwards, in any Gatsby project we want to use this custom feature, we have to:
+
+1. Run
+
+```
+yarn link gatsby
+yarn link gatsby-cli
+```
+
+2. Create a `deletion-config.json` file with an Array of pages that we shall delete on the next build
+
+```json
+// deletion-config.json
+["/pokemon/Pikachu/day/Tuesday"]
+```
+
+2. Run the `build` action with the custom `deletion-config` flag:
+
+```
+gatsby build --deletion-config-file=deletion-config.json
+```
+
+---
+
+---
+
+---
+
 <p align="center">
   <a href="https://www.gatsbyjs.com">
     <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
