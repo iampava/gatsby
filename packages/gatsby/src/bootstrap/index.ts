@@ -67,7 +67,10 @@ export async function bootstrap(
 
   await createPages(context)
 
-  await handleStalePageData()
+  // HACK|FIXME - don't use @ts-ignore
+  // Question: should we add `deletionConfigFile` to the `IProgram` interface?
+  // @ts-ignore
+  await handleStalePageData(context.program?.deletionConfigFile)
 
   await rebuildSchemaWithSitePage(context)
 

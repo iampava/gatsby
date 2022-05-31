@@ -3,6 +3,7 @@ import fs from "fs-extra"
 import reporter from "gatsby-cli/lib/reporter"
 import fastq from "fastq"
 import path from "path"
+import { slash } from "gatsby-core-utils"
 import { createContentDigest, generatePageDataPath } from "gatsby-core-utils"
 import { IGatsbyPage } from "../redux/types"
 import { websocketManager } from "./websocket-manager"
@@ -280,9 +281,24 @@ export function enqueueFlush(): void {
   }
 }
 
-export async function handleStalePageData(): Promise<void> {
+export async function handleStalePageData(
+  deletionConfigFilePath?: string
+): Promise<void> {
   if (!(await fs.pathExists(`public/page-data`))) {
     return
+  }
+
+  // Similar to the `build-html.ts` file, if we have this custom
+  // flag we only want to delete the pages defined inside.
+  let toDelete: Array<string> = []
+  if (deletionConfigFilePath !== undefined) {
+    const resolvedPath = slash(path.resolve(deletionConfigFilePath))
+    toDelete = require(resolvedPath)
+
+    reporter.info(
+      "[CUSTOM][handleStalePageData] CLI option `deletionConfigFile` is set. Files to be deleted: " +
+        (toDelete.length === 0 ? `none` : toDelete.join(`,`))
+    )
   }
 
   // public directory might have stale page-data files from previous builds
@@ -319,7 +335,10 @@ export async function handleStalePageData(): Promise<void> {
 
   const deletionPromises: Array<Promise<void>> = []
   pageDataFilesFromPreviousBuilds.forEach(pageDataFilePath => {
-    if (!expectedPageDataFiles.has(pageDataFilePath)) {
+    if (
+      !expectedPageDataFiles.has(pageDataFilePath) &&
+      (!deletionConfigFilePath || toDelete.includes(pageDataFilePath))
+    ) {
       deletionPromises.push(fs.remove(pageDataFilePath))
     }
   })
