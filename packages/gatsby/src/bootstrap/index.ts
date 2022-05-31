@@ -67,7 +67,10 @@ export async function bootstrap(
 
   await createPages(context)
 
-  await handleStalePageData(parentSpan)
+  // HACK|FIXME - don't use @ts-ignore
+  // Question: should we add `deletionConfigFile` to the `IProgram` interface?
+  // @ts-ignore
+  await handleStalePageData(parentSpan, context.program?.deletionConfigFile)
 
   if (process.env.GATSBY_EXPERIMENTAL_PARALLEL_QUERY_RUNNING) {
     savePartialStateToDisk([`inferenceMetadata`])
